@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<?php
+$users_arr[] = array("username"=>"yssyogesh","name"=>"Yogesh singh");
+$users_arr[] = array("username"=>"bsonarika","name"=>"Sonarika Bhadoria");
+$users_arr[] = array("username"=>"vijay","name"=>"Vijay Maurya");
+
+$age = array("Peter"=>array("username"=>"yssyogesh","name"=>"Yogesh singh"),
+"sdsd"=>array("username"=>"sadasd","name"=>"Yogesh singh")
+);
+
+foreach($users_arr as $x => $x_value) {
+	foreach($x_value as $y => $y_value)
+    {
+    echo "Key=" . $x . ", Value=" . $y_value;
+  echo "<br>";
+    }
+  
+}
+$age['sdsd']['username']="daniyal";
+ echo "<br>"; echo "<br>";
+foreach($age as $x => $x_value) {
+  echo "Key=" . $x . ", Value=" . $x_value['username'];
+  echo "<br>";
+  
+   echo count($age);
+}
+?>
+
+</body>
+</html>
+
+SELECT `order_product_id`,`order_product` , SUM(`order_qty`) AS TotalQuantity FROM `orders_tbl` GROUP BY `order_product_id` ORDER BY SUM(`order_qty`) DESC LIMIT 5;
+
+SELECT COUNT(*) FROM orders_tbl;
+
+SELECT `order_product_id`,`order_product` AS Products , ROUND(SUM(`order_qty`)*((SELECT COUNT(*) FROM orders_tbl)/100)) AS TotalSales FROM `orders_tbl` GROUP BY `order_product_id` ORDER BY SUM(`order_qty`) DESC LIMIT 5;
+
+SELECT `order_product_id`,`order_product` AS Products , SUM(`order_qty`)*((SELECT COUNT(*) FROM orders_tbl)/100) AS TotalSales FROM `orders_tbl` GROUP BY `order_product_id` ORDER BY SUM(`order_qty`) DESC LIMIT 5;
+------------------------------------------------------------------
+SELECT pro_name AS ProductName, pro_stock AS ProductStock FROM products_tbl GROUP BY pro_name ORDER BY pro_stock DESC;
+
+SELECT Rep, Sale, Sale * 100 / t.s AS `percent of total`
+FROM sales
+CROSS JOIN (SELECT SUM(sale) AS s FROM sales) t;
+-------------------------------------------------
+SELECT pro_name AS ProductName,CONCAT(ROUND(pro_stock * 100 / (SELECT SUM(pro_stock) FROM products_tbl)),'%') AS ProductStock FROM products_tbl GROUP BY pro_name ORDER BY pro_stock DESC;
+
+SELECT CONCAT(pro_name,' (',pro_stock,' items)') AS ProductName,ROUND(pro_stock * 100 / (SELECT SUM(pro_stock) FROM products_tbl)) AS ProductStock FROM products_tbl GROUP BY pro_name ORDER BY pro_stock DESC;
+
+------------------------------------------------
+
+SELECT order_product AS ProductName,ROUND(SUM(order_qty) * 100 / (SELECT SUM(order_qty) FROM orders_tbl)) AS OrderPercentage FROM orders_tbl GROUP BY order_product ORDER BY SUM(`order_qty`) DESC LIMIT 5;
